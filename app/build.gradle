@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -38,10 +39,10 @@ android {
 
 dependencies {
 
-    def room_version = "2.3.0"
+//    def room_version = "2.3.0"
     def nav_version = "2.5.3"
 
-    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
@@ -52,17 +53,17 @@ dependencies {
     // Timber
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
-    // Room
-    implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
-    implementation "androidx.room:room-ktx:$room_version"
+//    // Room
+//    implementation "androidx.room:room-runtime:$room_version"
+//    kapt "androidx.room:room-compiler:$room_version"
+//    implementation "androidx.room:room-ktx:$room_version"
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.14.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
     kapt 'com.github.bumptech.glide:compiler:4.12.0'
 
-    // Lifecycle
+//    // Lifecycle
 //    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
 //    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.1"
 //    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
@@ -72,7 +73,7 @@ dependencies {
 //    // Coroutine Lifecycle Scopes
 //    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
 //    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
-
+//
 //    // Coroutines
 //    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1'
 //    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0'
@@ -82,7 +83,7 @@ dependencies {
     implementation "androidx.fragment:fragment-ktx:1.5.5"
 
     // Architectural Components
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
+//    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
 
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
