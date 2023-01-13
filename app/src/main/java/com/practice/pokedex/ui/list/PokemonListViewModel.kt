@@ -1,16 +1,14 @@
 package com.practice.pokedex.ui.list
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.practice.pokedex.data.remote.responses.PokemonModelResponse
+import com.practice.pokedex.data.model.toPokemonsListResponse
 import com.practice.pokedex.repository.PokemonRepository
-import com.practice.pokedex.util.Resource
+import com.practice.pokedex.util.PokemonListState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import retrofit2.Response
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,32 +16,40 @@ class PokemonListViewModel @Inject constructor(
     private val repository: PokemonRepository
 ) : ViewModel() {
 
-    private val _list = MutableStateFlow<Resource<PokemonModelResponse>>(Resource.Loading())
-    val list: StateFlow<Resource<PokemonModelResponse>> = _list
+    private val _list = MutableLiveData<PokemonListState>()
+    val list: LiveData<PokemonListState> = _list
 
     init {
         fetch()
     }
 
     private fun fetch() = viewModelScope.launch {
-        safeFetch()
-    }
-
-    private suspend fun safeFetch() {
         try {
-            val response = repository.getPokemonList(20)
-            _list.value = handleResponse(response)
+            _list.value = PokemonListState(true)
+            val pokemonListEntry = repository.getPokemons()
+            val pokemonsList = pokemonListEntry.toPokemonsListResponse()
+            _list.value = PokemonListState(pokemonsList = pokemonsList)
         } catch (e: Exception) {
-            Timber.e("An error ocurred")
+            _list.value = PokemonListState(error =  e.message.toString())
         }
+//        safeFetch()
     }
+//
+//    private suspend fun safeFetch() {
+//        try {
+//            val response = repository.getPokemonList(20)
+//            _list.value = handleResponse(response)
+//        } catch (e: Exception) {
+//            Timber.e("An error ocurred")
+//        }
+//    }
 
-    private fun handleResponse(response: Response<PokemonModelResponse>): Resource<PokemonModelResponse> {
-        if (response.isSuccessful) {
-            response.body()?.let { values ->
-                return Resource.Success(values)
-            }
-        }
-        return Resource.Error(response.message())
-    }
+//    private fun handleResponse(response: Response<PokemonModelResponse>): Resource<PokemonModelResponse> {
+//        if (response.isSuccessful) {
+//            response.body()?.let { values ->
+//                return Resource.Success(values)
+//            }
+//        }
+//        return Resource.Error(response.message())
+//    }
 }
